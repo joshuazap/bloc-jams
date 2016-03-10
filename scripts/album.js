@@ -36,7 +36,7 @@ var albumBoc = {
    artist: 'Boards of Canada',
    label: 'Music70',
    year: '1987',
-   albumArtUrl: 'assets/images/album_covers/Boc1.png',
+   albumArtUrl: 'assets/images/album_covers/Boc1.jpg',
    songs: [
      { title: 'Line Two', duration: '10:43' },
      { title: 'Drone 18', duration: '6:40' },
@@ -82,4 +82,14 @@ var setCurrentAlbum = function(album) {
 
 window.onload = function() {
   setCurrentAlbum(albumPicasso);
+  
+  var index = 1;
+  var albumArray = [albumPicasso, albumMarconi, albumBoc];
+  var albumImage = document.getElementsByClassName('album-cover-art')[0];
+  
+  albumImage.addEventListener('click', function(event) {
+    var nextAlbum = albumArray[index];
+    setCurrentAlbum(nextAlbum);
+    index = (index + 1) % (albumArray.length);
+  })
 };
