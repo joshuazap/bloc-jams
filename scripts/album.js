@@ -58,25 +58,25 @@ var createSongRow = function(songNumber, songName, songLength) {
   + '</tr>'
   ;
   
-  return template;
+  return $(template);
 };
 
 var setCurrentAlbum = function(album) {
-  var albumTitle = document.getElementsByClassName('album-view-title')[0];
-  var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-  var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-  var albumImage = document.getElementsByClassName('album-cover-art')[0];
-  var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+  var $albumTitle = $('.album-view-title');
+  var $albumArtist = $('.album-view-artist');
+  var $albumReleaseInfo = $('.album-view-release-info');
+  var $albumImage = $('.album-cover-art');
+  var $albumSongList = $('.album-view-song-list');
   
-  albumTitle.firstChild.nodeValue = album.title;
-  albumArtist.firstChild.nodeValue = album.artist;
-  albumReleaseInfo.firstChild.nodeValue = album.year + ' ' + album.label;
-  albumImage.setAttribute('src', album.albumArtUrl);
-  
-  albumSongList.innerHTML = '';
+  $albumTitle.text(album.title);
+  $albumArtist.text(album.artist);
+  $albumReleaseInfo.text(album.year + ' ' + album.label);
+  $albumImage.attr('src', album.albumArtUrl);
+  $albumSongList.L = '';
   
   for (var i = 0; i < album.songs.length; i++) {
-    albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
+    var $newRow = createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
+      $albumSongList.append($newRow);
   }
 };
 
@@ -139,9 +139,9 @@ window.onload = function() {
   
 //  var index = 1;
 //  var albumArray = [albumPicasso, albumMarconi, albumBoc];
-//  var albumImage = document.getElementsByClassName('album-cover-art')[0];
+//  var $albumImage = document.getElementsByClassName('album-cover-art')[0];
 //  
-//  albumImage.addEventListener('click', function(event) {
+//  $albumImage.addEventListener('click', function(event) {
 //    var nextAlbum = albumArray[index];
 //    setCurrentAlbum(nextAlbum);
 //    index = (index + 1) % (albumArray.length);
