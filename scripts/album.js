@@ -1,7 +1,3 @@
-/*jslint browser: true*/
-/*global $, jQuery, alert*/
-/*jslint plusplus: true*/
-
 //Store state of playing songs
 var currentlyPlayingSongNumber = null,
     currentlyPlayingSong = null,
@@ -15,7 +11,6 @@ var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></
     playerBarPauseButton = '<span class="ion-pause"></span>';
 
 var updatePlayerBarSong = function () {
-    "use strict";
     
     if (currentSongFromAlbum) {
         $('.currently-playing .song-name').text(currentSongFromAlbum.title);
@@ -32,9 +27,8 @@ var updatePlayerBarSong = function () {
 };
 
 var clickHandler = function () {
-	"use strict";
     
-    var songNumber = parseInt($(this).attr('data-song-number')),
+    var songNumber = parseInt($(this).attr('data-song-number'), 10),
         currentlyPlayingCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
 
 	if (currentlyPlayingSongNumber !== null) {
@@ -59,7 +53,6 @@ var clickHandler = function () {
 };
 
 var createSongRow = function (songNumber, songName, songLength) {
-    "use strict";
     
     var template =
         '<tr class="album-view-song-item">'
@@ -72,7 +65,7 @@ var createSongRow = function (songNumber, songName, songLength) {
         
         onHover = function (event) {
             var songNumberCell = $(this).find('.song-item-number'),
-                songNumber = parseInt(songNumberCell.attr('data-song-number'));
+                songNumber = parseInt(songNumberCell.attr('data-song-number'), 10);
             
             if (songNumber !== currentlyPlayingSongNumber) {
                 songNumberCell.html(playButtonTemplate);
@@ -81,13 +74,11 @@ var createSongRow = function (songNumber, songName, songLength) {
         
         offHover = function (event) {
             var songNumberCell = $(this).find('.song-item-number'),
-                songNumber = parseInt(songNumberCell.attr('data-song-number'));
+                songNumber = parseInt(songNumberCell.attr('data-song-number'), 10);
             
             if (songNumber !== currentlyPlayingSongNumber) {
                 songNumberCell.html(songNumber);
             }
-            
-            console.log("songNumber type is " + typeof songNumber + "\n and currentlyPlayingSongNumber type is " + typeof currentlyPlayingSongNumber);
         };
     
     $row.find('.song-item-number').click(clickHandler);
@@ -96,7 +87,6 @@ var createSongRow = function (songNumber, songName, songLength) {
 };
 
 var setCurrentAlbum = function (album) {
-    "use strict";
     
     currentAlbum = album;
     
@@ -119,13 +109,11 @@ var setCurrentAlbum = function (album) {
 };
 
 var trackIndex = function (album, song) {
-    "use strict";
     
     return album.songs.indexOf(song);
 };
 
 var nextSong = function () {
-    "use strict";
     
     var getLastSongNumber = function (index) {
         return index === 0 ? currentAlbum.songs.length : index;
@@ -155,7 +143,6 @@ var nextSong = function () {
 };
 
 var previousSong = function () {
-    "use strict";
     
     var getLastSongNumber = function (index) {
         return index === (currentAlbum.songs.length - 1) ? 1 : index + 2;
@@ -188,7 +175,6 @@ var $previousButton = $('.main-controls .previous'),
     $nextButton = $('.main-controls .next');
 
 $(document).ready(function () {
-    "use strict";
     
     setCurrentAlbum(albumPicasso);
     $previousButton.click(previousSong);
