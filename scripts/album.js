@@ -1,7 +1,8 @@
 //Store state of playing songs
 var currentlyPlayingSongNumber = null,
     currentSongFromAlbum = null,
-    currentAlbum = null;
+    currentAlbum = null,
+    currentSoundFile = null;
 
 // Button templates
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>',
