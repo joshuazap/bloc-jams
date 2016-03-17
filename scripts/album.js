@@ -28,12 +28,15 @@ var clickHandler = function () {
 		$(this).html(pauseButtonTemplate);
 		currentlyPlayingSongNumber = songNumber;
         currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+        
 	} else if (currentlyPlayingSongNumber === songNumber) {
         // Switch from Pause to Play button for currently playing song
 		$(this).html(playButtonTemplate);
 		currentlyPlayingSongNumber = null;
         currentSongFromAlbum = null;
 	}
+    
+    updatePlayerBarSong();
 };
 
 var createSongRow = function (songNumber, songName, songLength) {
@@ -74,8 +77,9 @@ var createSongRow = function (songNumber, songName, songLength) {
 var setCurrentAlbum = function (album) {
     "use strict";
     
-    var currentAlbum = album,
-        $albumTitle = $('.album-view-title'),
+    currentAlbum = album;
+    
+    var $albumTitle = $('.album-view-title'),
         $albumArtist = $('.album-view-artist'),
         $albumReleaseInfo = $('.album-view-release-info'),
         $albumImage = $('.album-cover-art'),
@@ -96,9 +100,16 @@ var setCurrentAlbum = function (album) {
 var updatePlayerBarSong = function () {
     "use strict";
     
-    $('.currently-playing .song-name').text(currentSongFromAlbum.title);
-    $('.currently-playing .artist-name').text(currentAlbum.artist);
-    $('.currently-playing .artist-song-mobile').text(currentSongFromAlbum.title + " - " + currentAlbum.artist);
+    if (currentSongFromAlbum) {
+        $('.currently-playing .song-name').text(currentSongFromAlbum.title);
+        $('.currently-playing .artist-name').text(currentAlbum.artist);
+        $('.currently-playing .artist-song-mobile').text(currentSongFromAlbum.title + " - " + currentAlbum.artist);
+    } else {
+        $('.currently-playing .song-name').text(null);
+        $('.currently-playing .artist-name').text(null);
+        $('.currently-playing .artist-song-mobile').text(null);
+    }
+    
 };
 
 $(document).ready(function () {
