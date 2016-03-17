@@ -1,6 +1,5 @@
 //Store state of playing songs
 var currentlyPlayingSongNumber = null,
-    currentlyPlayingSong = null,
     currentSongFromAlbum = null,
     currentAlbum = null;
 
@@ -9,6 +8,15 @@ var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></
     pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>',
     playerBarPlayButton = '<span class="ion-play"></span>',
     playerBarPauseButton = '<span class="ion-pause"></span>';
+
+var setSong = function (songNumber) {
+    currentlyPlayingSongNumber = parseInt(songNumber);
+    currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+};
+
+var getSongNumberCell = function (number) {
+    return $('.song-item-number[data-song-number="' + number + '"]');
+};
 
 var updatePlayerBarSong = function () {
     
@@ -29,7 +37,7 @@ var updatePlayerBarSong = function () {
 var clickHandler = function () {
     
     var songNumber = parseInt($(this).attr('data-song-number'), 10),
-        currentlyPlayingCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
+        currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
 
 	if (currentlyPlayingSongNumber !== null) {
         // Revert to song number when user starts playing new song
@@ -39,14 +47,12 @@ var clickHandler = function () {
     if (currentlyPlayingSongNumber !== songNumber) {
         // Switch from Play to Pause button to indicate new song is playing
 		$(this).html(pauseButtonTemplate);
-		currentlyPlayingSongNumber = songNumber;
-        currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+		setSong(songNumber);
         
 	} else if (currentlyPlayingSongNumber === songNumber) {
         // Switch from Pause to Play button for currently playing song
 		$(this).html(playButtonTemplate);
-		currentlyPlayingSongNumber = null;
-        currentSongFromAlbum = null;
+		setSong(null);
 	}
     
     updatePlayerBarSong();
@@ -126,8 +132,7 @@ var nextSong = function () {
         currentSongIndex = 0;
     }
     
-    currentlyPlayingSongNumber = currentSongIndex + 1;
-    currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
+    setSong(currentSongIndex + 1);
     
     $('.currently-playing .song-name').text(currentSongFromAlbum.title);
     $('.currently-playing .artist-name').text(currentAlbum.artist);
@@ -135,8 +140,8 @@ var nextSong = function () {
     $('.main-controls .play-pause').html(playerBarPauseButton);
     
     var lastSongNumber = getLastSongNumber(currentSongIndex),
-        $nextSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]'),
-        $lastSongNumberCell = $('.song-item-number[data-song-number="' + lastSongNumber + '"]');
+        $nextSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber),
+        $lastSongNumberCell = getSongNumberCell(lastSongNumber);
     
     $nextSongNumberCell.html(pauseButtonTemplate);
     $lastSongNumberCell.html(lastSongNumber);
@@ -155,8 +160,7 @@ var previousSong = function () {
         currentSongIndex = currentAlbum.songs.length - 1;
     }
     
-    currentlyPlayingSongNumber = currentSongIndex + 1;
-    currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
+    setSong(currentSongIndex + 1);
     
     $('.currently-playing .song-name').text(currentSongFromAlbum.title);
     $('.currently-playing .artist-name').text(currentAlbum.title);
@@ -164,8 +168,8 @@ var previousSong = function () {
     $('.main-controls .play-pause').html(playerBarPauseButton);
     
     var lastSongNumber = getLastSongNumber(currentSongIndex),
-        $previousSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]'),
-        $lastSongNumberCell = $('.song-item-number[data-song-number="' + lastSongNumber + '"]');
+        $previousSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber),
+        $lastSongNumberCell = getSongNumberCell(lastSongNumber);
     
     $previousSongNumberCell.html(pauseButtonTemplate);
     $lastSongNumberCell.html(lastSongNumber);
